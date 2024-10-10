@@ -1,6 +1,15 @@
-import { HomePage, ProfilePage, NotFoundPage, ExplorePage } from "../Pages";
+import {
+  HomePage,
+  ProfilePage,
+  NotFoundPage,
+  ExplorePage,
+  SubPage,
+  PostPage,
+  FillProfilePage,
+} from "../Pages";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../Components/Shared/Layout";
+import FillLayout from "../Pages/FillProfilePage/FillLayout";
 
 const router = createBrowserRouter([
   {
@@ -20,10 +29,32 @@ const router = createBrowserRouter([
         element: <ExplorePage />,
       },
       {
+        path: "r/:subName",
+        element: <SubPage />,
+      },
+      {
+        path: "r/:subName/:postTitle",
+        element: <PostPage />,
+      },
+      {
         path: "*",
         element: <NotFoundPage />,
       },
     ],
+  },
+  {
+    path: "/fill-profile",
+    element: <FillLayout />,
+    children: [
+      {
+        path: "",
+        element: <FillProfilePage />,
+      },
+    ],
+  },
+  {
+    path: "/settings",
+    element: <Layout />,
   },
 ]);
 

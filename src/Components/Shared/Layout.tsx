@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 
 const Layout: React.FC = () => {
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-full flex flex-col">
       {/* Navbar */}
       <Navbar />
 
@@ -15,7 +15,7 @@ const Layout: React.FC = () => {
         <Sidebar />
 
         {/* Main Content */}
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex ml-[18rem] mt-[4rem]">
           <Outlet />
         </main>
       </div>

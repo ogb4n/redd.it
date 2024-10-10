@@ -2,17 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../utils/firebase"; // Remplace par le chemin correct vers ton fichier de configuration Firebase
-
-interface Sub {
-  id: string;
-  name: string;
-  description?: string;
-  createdAt?: string;
-}
+import { ISub } from "../../types";
 
 export const ExplorePage: React.FC = () => {
   document.title = "Explorer les Subs - Redd.it";
-  const [subs, setSubs] = useState<Sub[]>([]);
+  const [subs, setSubs] = useState<ISub[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -25,7 +19,7 @@ export const ExplorePage: React.FC = () => {
         const subsData = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-        })) as Sub[];
+        })) as ISub[];
         setSubs(subsData);
       } catch (err) {
         setError("Erreur lors du chargement des subs.");
@@ -58,7 +52,7 @@ export const ExplorePage: React.FC = () => {
               className="border rounded-lg p-4 shadow hover:shadow-lg cursor-pointer transition"
               onClick={() => handleSubClick(sub.id)}
             >
-              <h2 className="text-xl font-semibold">{sub.name}</h2>
+              <h2 className="text-xl font-semibold">{sub.id}</h2>
               {sub.description && (
                 <p className="text-gray-600 mt-2">{sub.description}</p>
               )}
