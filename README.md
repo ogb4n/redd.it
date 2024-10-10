@@ -1,23 +1,12 @@
-# React 18 + Vite + Vitest + React Testing Library
+# Redd.it
 
-A template which uses the following stack:
+A reddit clone using React 18, tailwind and material-ui.
 
-- React
-- Vite
-- Vitest
-- React Testing Library
+## Features
 
-Made to build short websites with a focus on testing.
+## Installation
 
-## Getting Started
-
-```bash
-yarn
-yarn dev
-```
-
-## Testing
-
-```bash
-yarn test
-```
+1. Clone the repository
+2. Install the dependencies - `YARN EVERYDAYS`
+3. Run the development server
+   > yarn dev
