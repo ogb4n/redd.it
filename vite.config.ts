@@ -10,4 +10,9 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./setupTests.ts",
   },
+  resolve: {
+    alias: {
+      src: "/src",
+    },
+  },
 });
