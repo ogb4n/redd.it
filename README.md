@@ -10,6 +10,16 @@ and to grant authorizations.
 
 ## Features
 
+- register and login users
+- post and comment
+- upvote and downvote
+- edit and delete profile
+- edit and delete post
+- edit and delete comment
+- sub to a subreddit
+- follow a user
+- create a subreddit
+
 ## Installation
 
 1. Clone the repository
