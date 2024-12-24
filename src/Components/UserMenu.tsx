@@ -13,7 +13,7 @@ import { useAuth } from "../utils/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export const UserMenu: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

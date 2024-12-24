@@ -9,7 +9,7 @@ interface BarProps {
   subName: string;
 }
 
-export const InteractBar: React.FC<BarProps> = ({ postName, subName }) => {
+export const PostInteractBar: React.FC<BarProps> = ({ postName, subName }) => {
   const { handleUpVote } = useUpVote(postName);
   const navigate = useNavigate();
   const location = useLocation();

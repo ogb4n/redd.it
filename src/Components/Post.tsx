@@ -1,5 +1,6 @@
 import React from "react";
-
+import parse from "react-html-parser";
+import { Link } from "react-router-dom";
 interface PostProps {
   subId: string;
   title: string;
@@ -16,18 +17,20 @@ export const Post: React.FC<PostProps> = ({
   author,
   likes,
   subId,
+  postId,
+  images,
 }) => {
   return (
-    <>
-      <div>
-        <div className="p-4">
-          {" "}
-          <h2 className="text-xl font-semibold">{title}</h2>
-          <p className="text-gray-600 mt-2">{content}</p>
-          <p className="text-sm text-gray-500 mt-2">By {author}</p>
-          <p className="text-sm text-gray-500 mt-2">{likes} likes</p>
-        </div>
+    <div>
+      <div className="p-4">
+        {" "}
+        <h2 className="text-black font-bold text-2xl">{title}</h2>
+        <p className="text-lg mt-2 text-black">{parse(content)}</p>
+        <p className="text-sm text-gray-500 mt-2">
+          from <Link to={`/profile/${author}`}>{author}</Link>
+        </p>
+        <p className="text-sm text-gray-500 mt-2">{likes} likes</p>
       </div>
-    </>
+    </div>
   );
 };

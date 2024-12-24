@@ -2,11 +2,14 @@ import React from "react";
 interface Props {
   label: string;
   color: string;
-  onClick: () => void;
+  onClick?: () => void;
+  type?: "button" | "submit" | "reset";
 }
-const Button: React.FC<Props> = ({ label, color, onClick }) => {
+
+export const Button: React.FC<Props> = ({ label, color, onClick, type }) => {
   return (
     <button
+      type={type}
       onClick={onClick}
       className={`${color} px-2 py-1 rounded-full text-white`}
     >
@@ -14,4 +17,3 @@ const Button: React.FC<Props> = ({ label, color, onClick }) => {
     </button>
   );
 };
-export default Button;

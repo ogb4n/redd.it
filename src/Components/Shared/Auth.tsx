@@ -27,11 +27,10 @@ export const Auth: React.FC = () => {
   const [error, setError] = React.useState<string | null>(null);
   const navigate = useNavigate();
 
-  // Variable d’état pour afficher ou non le formulaire d’inscription
   const [showRegisterForm, setShowRegisterForm] =
     React.useState<boolean>(false);
 
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

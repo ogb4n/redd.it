@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "../Shared/Button";
 import SearchBar from "../SearchBar";
 import { Auth } from "./Auth";
 import { Link } from "react-router-dom";

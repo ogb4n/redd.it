@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Button from "@mui/joy/Button";
 import { useAuth } from "../../utils/AuthContext";
 import { db } from "../../utils/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 export const Navbar: React.FC = () => {
@@ -15,13 +15,24 @@ export const Navbar: React.FC = () => {
         .toString(36)
         .substring(2, 10)}`;
       try {
-        await setDoc(doc(db, "users", user.uid), {
+        await updateDoc(doc(db, "users", user.uid), {
           username: randomUsername,
         });
         console.log("Username set to:", randomUsername);
         navigate("/");
-      } catch (error) {
-        console.error("Error setting username:", error);
+      } catch (error: any) {
+        if (error.code === "not-found") {
+          await setDoc(
+            doc(db, "users", user.uid),
+            {
+              username: randomUsername,
+            },
+            { merge: true }
+          );
+          navigate("/");
+        } else {
+          console.error("Error setting username:", error);
+        }
       }
     }
   };

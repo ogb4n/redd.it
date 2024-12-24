@@ -15,7 +15,7 @@ const Layout: React.FC = () => {
         <Sidebar />
 
         {/* Main Content */}
-        <main className="flex ml-[18rem] mt-[4rem]">
+        <main className="mx-auto w-[45rem] mt-[4rem] ">
           <Outlet />
         </main>
       </div>

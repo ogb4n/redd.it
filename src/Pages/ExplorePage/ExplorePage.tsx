@@ -1,39 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../utils/firebase"; // Remplace par le chemin correct vers ton fichier de configuration Firebase
-import { ISub } from "../../types";
+import { useFetchSubs } from "../../Hooks/useFetchSubs";
 
 export const ExplorePage: React.FC = () => {
-  document.title = "Explorer les Subs - Redd.it";
-  const [subs, setSubs] = useState<ISub[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const { subs, loading, error } = useFetchSubs();
   const navigate = useNavigate();
 
+  // Gestion du titre de la page
   useEffect(() => {
-    const fetchSubs = async () => {
-      try {
-        const subsCollection = collection(db, "subs");
-        const snapshot = await getDocs(subsCollection);
-        const subsData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as ISub[];
-        setSubs(subsData);
-      } catch (err) {
-        setError("Erreur lors du chargement des subs.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSubs();
+    document.title = "Explorer les Subs - Redd.it";
   }, []);
 
   const handleSubClick = (subName: string) => {
-    navigate(`/r/${subName}`); // Redirige vers la page du sub
+    navigate(`/r/${subName}`);
   };
 
   if (loading) return <div>Chargement des subs...</div>;
@@ -49,13 +28,19 @@ export const ExplorePage: React.FC = () => {
           {subs.map((sub) => (
             <li
               key={sub.id}
-              className="border rounded-lg p-4 shadow hover:shadow-lg cursor-pointer transition"
-              onClick={() => handleSubClick(sub.id)}
+              className="border rounded-lg p-4 shadow transition"
             >
-              <h2 className="text-xl font-semibold">{sub.id}</h2>
-              {sub.description && (
-                <p className="text-gray-600 mt-2">{sub.description}</p>
-              )}
+              <button
+                className="w-full text-left"
+                onClick={() => handleSubClick(sub.id)}
+              >
+                <h2 className="text-xl font-semibold">{sub.id}</h2>
+                {sub.description && (
+                  <p className="text-gray-600 mt-2 text-sm">
+                    {sub.description}
+                  </p>
+                )}
+              </button>
             </li>
           ))}
         </ul>
