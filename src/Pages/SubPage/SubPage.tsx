@@ -17,10 +17,9 @@ export const SubPage: React.FC = () => {
     subs: followedSubs,
     loading: subsLoading,
     error: subsError,
-  } = useFetchFollowedSubs(user); // Utilisation correcte du hook
+  } = useFetchFollowedSubs(user);
   const [isFollowed, setIsFollowed] = useState(false);
 
-  // Vérifie si le sub est suivi lorsqu'on change `subName` ou que `followedSubs` est mis à jour
   useEffect(() => {
     if (!user || subsLoading || subsError) return;
     setIsFollowed(followedSubs.includes(subName ?? ""));

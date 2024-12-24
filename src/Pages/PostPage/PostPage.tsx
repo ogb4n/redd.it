@@ -14,7 +14,6 @@ import { FormControl, Stack } from "@mui/joy";
 import { useAuth } from "../../utils/AuthContext";
 import { BasicModal } from "../../Components/Shared/BasicModal";
 import { EditPostForm } from "../../Components/Crud/EditPostForm";
-import { Title } from "@mui/icons-material";
 
 export const PostPage: React.FC = () => {
   const { subName, postTitle } = useParams<{
@@ -81,10 +80,12 @@ export const PostPage: React.FC = () => {
   return (
     <Stack className="p-4">
       {user ? (
-        <BasicModal color="bg-accent" labelButton="edit the post">
+        <BasicModal labelButton="edit the post">
           <EditPostForm
             initialTitle={post?.title as string}
             initialContent={post?.content as string}
+            postId={post?.id as string}
+            onCancel={() => {}}
           />
         </BasicModal>
       ) : (

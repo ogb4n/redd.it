@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Divider } from "@mui/material";
 import { useAuth } from "../../utils/AuthContext";
 import useFetchFollowedSubs from "../../Hooks/useFetchFollowedSubs";
+import AddIcon from "@mui/icons-material/Add";
 
 const Sidebar: React.FC = () => {
   const { user } = useAuth();
@@ -22,11 +23,21 @@ const Sidebar: React.FC = () => {
             >
               {sub}
             </Link>
+            <Link to={""} className="block px-4 py-2 rounded hover:bg-gray-200">
+              <AddIcon />
+              Create yours
+            </Link>
           </li>
         ))}
       </ul>
     ) : (
-      <p>No followed communities.</p>
+      <div>
+        <p>No followed communities.</p>
+        <Link to={""} className="block px-4 py-2 rounded hover:bg-gray-200">
+          <AddIcon />
+          Create yours
+        </Link>
+      </div>
     );
 
   return (

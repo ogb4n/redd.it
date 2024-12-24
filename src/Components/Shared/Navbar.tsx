@@ -4,7 +4,6 @@ import { Auth } from "./Auth";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../utils/AuthContext";
 import { UserMenu } from "../UserMenu";
-
 const Navbar: React.FC = () => {
   const { user } = useAuth();
   return (
@@ -17,7 +16,11 @@ const Navbar: React.FC = () => {
       </div>
       <div className="flex space-x-4 text-base">
         <Auth />
-        {user && <UserMenu />}
+        {user && (
+          <div>
+            <UserMenu />
+          </div>
+        )}
       </div>
     </nav>
   );
