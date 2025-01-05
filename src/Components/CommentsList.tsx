@@ -3,7 +3,7 @@ import parse from "react-html-parser";
 
 interface Comment {
   id: string;
-  subName: string;
+  postId: string;
   content: string;
   author: string;
 }

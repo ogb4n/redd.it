@@ -17,13 +17,13 @@ import "react-quill/dist/quill.snow.css";
 interface FormActions {
   close: () => void;
   user: User | null;
-  subName: string;
+  subId: string;
 }
 
 export const CreatePostForm: React.FC<FormActions> = ({
   close,
   user,
-  subName,
+  subId,
 }) => {
   const [formData, setFormData] = useState({
     title: "",
@@ -53,7 +53,7 @@ export const CreatePostForm: React.FC<FormActions> = ({
           likes: 0,
           nsfw: checked,
           creationDate: new Date(),
-          subId: subName,
+          subId: subId,
         });
         close();
       } catch (error) {

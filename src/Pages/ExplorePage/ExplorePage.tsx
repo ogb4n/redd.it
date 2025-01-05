@@ -11,8 +11,8 @@ export const ExplorePage: React.FC = () => {
     document.title = "Explorer les Subs - Redd.it";
   }, []);
 
-  const handleSubClick = (subName: string) => {
-    navigate(`/r/${subName}`);
+  const handleSubClick = (subId: string) => {
+    navigate(`/r/${subId}`);
   };
 
   if (loading) return <div>Chargement des subs...</div>;

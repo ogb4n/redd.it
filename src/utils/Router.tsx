@@ -29,11 +29,11 @@ const router = createBrowserRouter([
         element: <ExplorePage />,
       },
       {
-        path: "r/:subName",
+        path: "r/:subId",
         element: <SubPage />,
       },
       {
-        path: "r/:subName/:postTitle",
+        path: "r/:subId/:postTitle",
         element: <PostPage />,
       },
       {

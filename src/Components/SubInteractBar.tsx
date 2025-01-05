@@ -7,14 +7,14 @@ import { BasicModal } from "./Shared/BasicModal";
 import { CreatePostForm } from "./Crud/CreatePostForm";
 
 interface BarProps {
-  subName: string;
+  subId: string;
   user: User | null;
   isFollowed: boolean;
   onFollowChange: (isFollowed: boolean) => void;
 }
 
 export const SubInteractBar: React.FC<BarProps> = ({
-  subName,
+  subId,
   user,
   isFollowed: initialIsFollowed,
   onFollowChange,
@@ -36,13 +36,13 @@ export const SubInteractBar: React.FC<BarProps> = ({
     try {
       if (isFollowed) {
         await updateDoc(userDocRef, {
-          "saved.followedSubs": arrayRemove(subName),
+          "saved.followedSubs": arrayRemove(subId),
         });
         setIsFollowed(false);
         onFollowChange(false);
       } else {
         await updateDoc(userDocRef, {
-          "saved.followedSubs": arrayUnion(subName),
+          "saved.followedSubs": arrayUnion(subId),
         });
         setIsFollowed(true);
         onFollowChange(true);
@@ -55,7 +55,7 @@ export const SubInteractBar: React.FC<BarProps> = ({
   return (
     <div className="ml-auto gap-2 grid grid-cols-2">
       <BasicModal labelButton="Create a post">
-        <CreatePostForm user={user} subName={subName} close={() => {}} />
+        <CreatePostForm user={user} subId={subId} close={() => {}} />
       </BasicModal>
       <Button
         color={isFollowed ? "bg-red-500" : "bg-secondary"}

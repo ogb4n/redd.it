@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../utils/firebase";
-import { ISub } from "../types/Sub";
+import { ISub } from "../types";
 
 export const useFetchSubs = () => {
   const [subs, setSubs] = useState<ISub[]>([]);

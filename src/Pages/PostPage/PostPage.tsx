@@ -13,11 +13,11 @@ import { Button } from ".././../Components/Shared/Button";
 import { FormControl, Stack } from "@mui/joy";
 import { useAuth } from "../../utils/AuthContext";
 import { BasicModal } from "../../Components/Shared/BasicModal";
-import { EditPostForm } from "../../Components/Crud/EditPostForm";
+// import { EditPostForm } from "../../Components/Crud/EditPostForm";
 
 export const PostPage: React.FC = () => {
-  const { subName, postTitle } = useParams<{
-    subName: string;
+  const { subId, postTitle } = useParams<{
+    subId: string;
     postTitle: string;
   }>();
   const { user } = useAuth();
@@ -51,7 +51,7 @@ export const PostPage: React.FC = () => {
         const postsCollection = collection(db, "posts");
         const q = query(
           postsCollection,
-          where("subId", "==", subName),
+          where("subId", "==", subId),
           where("title", "==", postTitle)
         );
         const snapshot = await getDocs(q);
@@ -72,7 +72,7 @@ export const PostPage: React.FC = () => {
     };
 
     fetchPost();
-  }, [subName, postTitle, post?.id]);
+  }, [subId, postTitle, post?.id]);
 
   if (loading) return <div>Loading post...</div>;
   if (error) return <div>{error}</div>;
@@ -81,12 +81,13 @@ export const PostPage: React.FC = () => {
     <Stack className="p-4">
       {user ? (
         <BasicModal labelButton="edit the post">
-          <EditPostForm
+          {/* <EditPostForm
             initialTitle={post?.title as string}
             initialContent={post?.content as string}
             postId={post?.id as string}
             onCancel={() => {}}
-          />
+          /> */}
+          <p>oui</p>
         </BasicModal>
       ) : (
         <div></div>
@@ -96,7 +97,7 @@ export const PostPage: React.FC = () => {
           <Post
             key={post.id}
             postId={post.id}
-            subId={subName as string}
+            subId={subId as string}
             title={post.title}
             content={post.content}
             author={post.author}

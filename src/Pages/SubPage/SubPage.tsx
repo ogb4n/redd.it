@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Divider } from "@mui/material";
 import { useAuth } from "../../utils/AuthContext";
 import { Post } from "../../Components/Post";
@@ -10,25 +10,35 @@ import useFetchFollowedSubs from "../../Hooks/useFetchFollowedSubs";
 import { useGetPosts } from "../../Hooks/useGetPosts";
 
 export const SubPage: React.FC = () => {
-  const { subName } = useParams<{ subName: string }>();
-  const { posts, loading, error, comments } = useGetPosts(subName as string);
+  const location = useLocation();
+  const subName = location.pathname.split("/").pop();
   const { user } = useAuth();
+    console.log('subName:', subName);
+    // État local pour vérifier si le sub est suivi
+  const [isFollowed, setIsFollowed] = useState(false);
+
+  // Gestion des posts uniquement si `subName` est valide
+  const { posts, loading, error, comments } = useGetPosts(subName);
+
+  // Gestion des subs suivis
   const {
     subs: followedSubs,
     loading: subsLoading,
     error: subsError,
   } = useFetchFollowedSubs(user);
-  const [isFollowed, setIsFollowed] = useState(false);
 
+  // Vérifie si le sub est suivi lorsqu'on change `subName` ou que `followedSubs` est mis à jour
   useEffect(() => {
-    if (!user || subsLoading || subsError) return;
-    setIsFollowed(followedSubs.includes(subName ?? ""));
+    if (!user || subsLoading || subsError || !subName) return;
+    setIsFollowed(followedSubs.includes(subName));
   }, [subName, user, followedSubs, subsLoading, subsError]);
 
   const handleFollowChange = (followed: boolean) => {
     setIsFollowed(followed);
   };
 
+  // Gestion des cas où subName est invalide ou des erreurs de chargement
+  if (!subName) return <div>Error: SubName is not defined.</div>;
   if (loading) return <div>Loading posts...</div>;
   if (error) return <div>Error loading posts: {error}</div>;
   if (subsError)
@@ -41,7 +51,7 @@ export const SubPage: React.FC = () => {
         {subName !== "popular" && (
           <SubInteractBar
             user={user}
-            subName={subName as string}
+            subId={subName}
             isFollowed={isFollowed}
             onFollowChange={handleFollowChange}
           />
@@ -57,7 +67,7 @@ export const SubPage: React.FC = () => {
               <Link to={`/r/${subName}/${post.title}`}>
                 <Post
                   postId={post.id}
-                  subId={subName as string}
+                  subId={subName}
                   title={post.title}
                   content={post.content}
                   author={post.author}
@@ -65,11 +75,11 @@ export const SubPage: React.FC = () => {
                 />
               </Link>
               <PostInteractBar
-                subName={subName as string}
+                subId={subName}
                 postName={post.title}
               />
               <CommentsList
-                postId={post.title}
+                postId={post.id}
                 comments={comments[post.id] || []}
               />
               <div className="my-12">
