@@ -26,3 +26,17 @@ and to grant authorizations.
 2. Install the dependencies - `YARN EVERYDAYS`
 3. Run the development server
    > yarn dev
+
+
+# Infos 
+
+
+there is a test user with you can log in, use the following credentials :
+
+- test@test.com - email
+- testuser123 - password
+
+
+> Processing operations to the website will require you to establish a connection to the firestore used to dev the project. To make the connection properly you need to create a .env file at the root of the project and put it the content that i'll give you after you requested it to me. 
+
+Please use discord to contact me : (uptoban)

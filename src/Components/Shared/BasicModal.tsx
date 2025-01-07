@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "./Button";
+import Button from "@mui/joy/Button";
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import Sheet from "@mui/joy/Sheet";
@@ -16,11 +16,9 @@ export const BasicModal: React.FC<BasicModalProps> = ({
   const [open, setOpen] = React.useState<boolean>(false);
   return (
     <React.Fragment>
-      <Button
-        label={labelButton}
-        color="bg-accent"
-        onClick={() => setOpen(true)}
-      />
+      <Button color="success" onClick={() => setOpen(true)}>
+        {labelButton}
+      </Button>
 
       <Modal
         aria-labelledby="modal-title"

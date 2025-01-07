@@ -6,7 +6,7 @@ export const ExplorePage: React.FC = () => {
   const { subs, loading, error } = useFetchSubs();
   const navigate = useNavigate();
 
-  // Gestion du titre de la page
+  
   useEffect(() => {
     document.title = "Explorer les Subs - Redd.it";
   }, []);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { User } from "firebase/auth";
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../utils/firebase";
-import { Button } from "../Components/Shared/Button";
+import Button from "@mui/joy/Button";
 import { BasicModal } from "./Shared/BasicModal";
 import { CreatePostForm } from "./Crud/CreatePostForm";
 
@@ -58,10 +58,11 @@ export const SubInteractBar: React.FC<BarProps> = ({
         <CreatePostForm user={user} subId={subId} close={() => {}} />
       </BasicModal>
       <Button
-        color={isFollowed ? "bg-red-500" : "bg-secondary"}
-        label={isFollowed ? "Leave" : "Join"}
+        color={isFollowed ? "danger" : "success"}
         onClick={handleToggleFollow}
-      />
+      >
+        {isFollowed ? "Leave" : "Join"}
+      </Button>
     </div>
   );
 };

@@ -25,16 +25,16 @@ const useUpVote = (postId: string) => {
       const userDoc = await getDoc(userDocRef);
       const userData = userDoc.data();
 
-      if (userData?.likedPosts?.includes(postId)) {
+      if (userData?.saved.likedPosts?.includes(postId)) {
         await updateDoc(userDocRef, {
-          likedPosts: arrayRemove(postId),
+          "saved.likedPosts": arrayRemove(postId),
         });
         await updateDoc(postDocRef, {
           likes: increment(-1),
         });
       } else {
         await updateDoc(userDocRef, {
-          likedPosts: arrayUnion(postId),
+          "saved.likedPosts": arrayUnion(postId),
         });
         await updateDoc(postDocRef, {
           likes: increment(1),

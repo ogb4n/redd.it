@@ -13,7 +13,7 @@ const useFetchFollowedSubs = (
   useEffect(() => {
     const fetchFollowedSubs = async () => {
       if (!user) {
-        setSubs([]); // Pas d'utilisateur, pas de subs
+        setSubs([]); 
         setLoading(false);
         return;
       }

@@ -42,14 +42,13 @@ export const Auth: React.FC = () => {
       );
       console.log("Utilisateur connecté :", userCredential.user);
       setError(null);
-      setOpen(false); // Fermer la modal après connexion
+      setOpen(false);
     } catch (err: any) {
       console.error("Erreur de connexion :", err.message);
-      setError("auth.loginError"); // Message d'erreur
+      setError("auth.loginError");
     }
   };
 
-  // Exemple de logique d’inscription (à adapter selon vos besoins) :
   const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const response = await axios.post("http://localhost:6273/users/register", {
@@ -80,6 +79,7 @@ export const Auth: React.FC = () => {
         <Button
           variant="outlined"
           sx={{ textTransform: "none" }}
+          color="success"
           startDecorator={<Add />}
           onClick={() => setOpen(true)}
         >
@@ -129,7 +129,7 @@ export const Auth: React.FC = () => {
                 color="primary"
                 onClick={() => setShowRegisterForm(true)}
               >
-                Créer un compte
+                Create an account
               </Button>
             )}
 
@@ -156,12 +156,9 @@ export const Auth: React.FC = () => {
                     />
                   </FormControl>
                   {error && <div style={{ color: "red" }}>{error}</div>}
-                  <button
-                    className="btn-primary btn btn-sm mt-2 w-full"
-                    type="submit"
-                  >
+                  <Button variant="outlined" color="success" type="submit">
                     Register
-                  </button>
+                  </Button>
                 </form>
               </div>
             )}

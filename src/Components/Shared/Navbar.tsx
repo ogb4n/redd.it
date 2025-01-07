@@ -1,28 +1,55 @@
 import React from "react";
-import SearchBar from "../SearchBar";
-import { Auth } from "./Auth";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../utils/AuthContext";
+import SearchBar from "../SearchBar";
+import { Auth } from "./Auth";
 import { UserMenu } from "../UserMenu";
+import { Box, Typography, Input, Button } from "@mui/joy";
+
 const Navbar: React.FC = () => {
   const { user } = useAuth();
+
   return (
-    <nav className="fixed w-full bg-white h-[56px] py-4 px-6 flex items-center justify-between border-b border-neutral border-opacity-25">
-      <div className="text-2xl font-bold text-primary">
-        <Link to="/">Redd.it</Link>
-      </div>
-      <div className="w-[33rem] mx-auto flex">
+    <Box
+      component="header"
+      sx={{
+        position: "fixed",
+        top: 0,
+        width: "100%",
+        height: 56,
+        backgroundColor: "background.surface",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        borderBottom: "1px solid",
+        borderColor: "divider",
+        px: 2,
+        zIndex: 1100,
+      }}
+    >
+      <Typography
+        component={Link}
+        to="/"
+        sx={{
+          textDecoration: "none",
+          fontSize: 24,
+          color: "green",
+          fontWeight: "bold",
+        }}
+      >
+        Redd.it
+      </Typography>
+
+      <Box sx={{ width: "33rem", mx: "auto" }}>
         <SearchBar />
-      </div>
-      <div className="flex space-x-4 text-base">
+      </Box>
+
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
         <Auth />
-        {user && (
-          <div>
-            <UserMenu />
-          </div>
-        )}
-      </div>
-    </nav>
+        {user && <UserMenu />}
+      </Box>
+    </Box>
   );
 };
+
 export default Navbar;

@@ -22,7 +22,7 @@ export const useGetPosts = (subName: string | undefined) => {
         setError(null);
 
         const postsCollection = collection(db, "posts");
-        const q = query(postsCollection, where("subId", "==", "medicine"));
+        const q = query(postsCollection, where("subId", "==", subName));
         const snapshot = await getDocs(q);
 
         const postsData = snapshot.docs.map((doc) => ({
