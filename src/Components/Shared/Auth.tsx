@@ -1,5 +1,5 @@
 import * as React from "react";
-import Button from "@mui/joy/Button";
+import { CustomButton } from "./CustomButton";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
@@ -76,15 +76,13 @@ export const Auth: React.FC = () => {
   return (
     <React.Fragment>
       {!user && (
-        <Button
+        <CustomButton
           variant="outlined"
           sx={{ textTransform: "none" }}
-          color="success"
           startDecorator={<Add />}
           onClick={() => setOpen(true)}
-        >
-          Sign In
-        </Button>
+          label="Sign In"
+        ></CustomButton>
       )}
 
       <Modal open={open} onClose={() => setOpen(false)}>
@@ -113,24 +111,27 @@ export const Auth: React.FC = () => {
                 />
               </FormControl>
               {error && <div style={{ color: "red" }}>{error}</div>}
-              <button
-                className="btn-secondary btn btn-sm mt-2 w-full"
+              <CustomButton
+                sx={{
+                  bgcolor: "#10b981",
+                  "&:hover": {
+                    bgcolor: "#059669",
+                  },
+                }}
                 type="submit"
-              >
-                Sign In
-              </button>
+                label="Sign In"
+              ></CustomButton>
             </form>
 
             <Divider>Or</Divider>
 
             {!showRegisterForm && (
-              <Button
+              <CustomButton
                 variant="plain"
                 color="primary"
                 onClick={() => setShowRegisterForm(true)}
-              >
-                Create an account
-              </Button>
+                label="Create an account"
+              ></CustomButton>
             )}
 
             {showRegisterForm && (
@@ -156,9 +157,18 @@ export const Auth: React.FC = () => {
                     />
                   </FormControl>
                   {error && <div style={{ color: "red" }}>{error}</div>}
-                  <Button variant="outlined" color="success" type="submit">
+                  <CustomButton
+                    label="Register"
+                    sx={{
+                      bgcolor: "#10b981",
+                      "&:hover": {
+                        bgcolor: "#059669",
+                      },
+                    }}
+                    type="submit"
+                  >
                     Register
-                  </Button>
+                  </CustomButton>
                 </form>
               </div>
             )}

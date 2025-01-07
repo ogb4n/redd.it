@@ -23,7 +23,6 @@ export const SubPage: React.FC = () => {
     error: subsError,
   } = useFetchFollowedSubs(user);
 
-  // Vérifie si le sub est suivi lorsqu'on change `subName` ou que `followedSubs` est mis à jour
   useEffect(() => {
     if (!user || subsLoading || subsError || !subName) return;
     setIsFollowed(followedSubs.includes(subName));
@@ -42,7 +41,7 @@ export const SubPage: React.FC = () => {
   return (
     <div className="p-4">
       <div className="flex w-full items-center justify-between">
-        <h1 className="text-2xl font-bold mb-4">Posts in r/{subName}</h1>
+        <h1 className="text-2xl text-black font-bold mb-4">Posts in r/{subName}</h1>
         {subName !== "popular" && (
           <SubInteractBar
             user={user}

@@ -2,11 +2,13 @@ import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import ExploreIcon from "@mui/icons-material/Explore";
+import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { Divider } from "@mui/material";
 import { useAuth } from "../../utils/AuthContext";
 import useFetchFollowedSubs from "../../Hooks/useFetchFollowedSubs";
-import AddIcon from "@mui/icons-material/Add";
+
+import { BasicModal } from "./BasicModal";
 
 const Sidebar: React.FC = () => {
   const { user } = useAuth();
@@ -19,24 +21,32 @@ const Sidebar: React.FC = () => {
           <li key={sub}>
             <Link
               to={`/r/${sub}`}
-              className="block px-4 py-2 rounded hover:bg-gray-200"
+              className="block px-4 py-2 my-2 rounded hover:bg-gray-200"
             >
               {sub}
             </Link>
-            <Link to={""} className="block px-4 py-2 rounded hover:bg-gray-200">
+            <BasicModal
+              bgcolor="#10b981"
+              hoverBgcolor="#059669"
+              labelButton="Create yours"
+              icon={<AddIcon />}
+            >
               <AddIcon />
-              Create yours
-            </Link>
+            </BasicModal>
           </li>
         ))}
       </ul>
     ) : (
       <div>
         <p>No followed communities.</p>
-        <Link to={""} className="block px-4 py-2 rounded hover:bg-gray-200">
+        <BasicModal
+          bgcolor="#10b981"
+          hoverBgcolor="#059669"
+          labelButton="Create yours"
+          icon={<AddIcon />}
+        >
           <AddIcon />
-          Create yours
-        </Link>
+        </BasicModal>
       </div>
     );
 
@@ -77,10 +87,8 @@ const Sidebar: React.FC = () => {
           <h2 className="text-lg font-semibold mb-2">Communautés</h2>
           {loading ? (
             <p>Loading...</p>
-          ) : error ? (
-            <p>Error loading communities.</p>
           ) : (
-            followedSubsList
+            <>{error ? <p>Error loading communities.</p> : followedSubsList}</>
           )}
         </div>
       )}

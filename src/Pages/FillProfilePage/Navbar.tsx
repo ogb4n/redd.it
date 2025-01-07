@@ -38,7 +38,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <nav className="w-full bg-white h-[56px] py-4 px-6 flex items-center justify-between border-b border-neutral border-opacity-25">
-      <div className="text-2xl font-bold text-primary">
+      <div className="text-2xl font-bold">
         <Link to="/">Redd.it</Link>
       </div>
       <div className="w-[33rem] flex"></div>

@@ -27,13 +27,13 @@ export const Post: React.FC<PostProps> = ({
   images,
 }) => {
   return (
-      <Card sx={{ padding: 4 }}>
-        <Typography fontSize={20} fontWeight={"bold"}>{title}</Typography>
-        <Typography fontSize={16}>{parse(content)}</Typography>
-        <CardContent className="text-sm text-gray-500 mt-2">
+      <Card sx={{ padding: 4, backgroundColor: "white" }}>
+        <Typography textColor={'black'} fontSize={20} fontWeight={"bold"}>{title}</Typography>
+        <Typography textColor={"grey"} fontSize={16}>{parse(content)}</Typography>
+        <CardContent className="text-[#333632] text-sm mt-2">
           from <Link to={`/profile/${author}`}>{author}</Link>
         </CardContent>
-        <Typography className="text-sm text-gray-500 mt-2">{likes} likes</Typography>
+        <Typography textColor={"grey"} fontSize={16}>{likes} likes</Typography>
           <PostInteractBar
             subId={subId}
             postName={title}

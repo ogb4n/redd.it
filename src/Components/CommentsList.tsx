@@ -1,5 +1,20 @@
 import React from "react";
 import parse from "react-html-parser";
+import Avatar from "@mui/joy/Avatar";
+import Box from "@mui/joy/Box";
+import Sheet from "@mui/joy/Sheet";
+import Stack from "@mui/joy/Stack";
+import Typography from "@mui/joy/Typography";
+import { styled } from "@mui/joy/styles";
+
+const Item = styled(Sheet)(({ theme }) => ({
+  ...theme.typography["body-sm"],
+  padding: theme.spacing(2),
+  borderRadius: 8,
+  color: theme.vars.palette.text.secondary,
+  maxWidth: 600,
+  backgroundColor: theme.vars.palette.background.level1,
+}));
 
 interface Comment {
   id: string;
@@ -15,19 +30,30 @@ interface CommentsProps {
 
 export const CommentsList: React.FC<CommentsProps> = ({ comments, postId }) => {
   return (
-    <div>
+    <Box sx={{ flexGrow: 1, overflow: "hidden", px: 3 }}>
       {comments.length === 0 ? (
-        <p className="text-sm">No comments yet.</p>
+        <Typography level="body-sm" textAlign="center" color="neutral">
+          No comments yet.
+        </Typography>
       ) : (
-        <ul className="">
-          {comments.map((comment, index) => (
-            <li key={comment.id}>
-              <p className="text-md">{parse(comment.content)}</p>
-              <p className="text-sm">By {comment.author}</p>
-            </li>
+        <Stack spacing={2}>
+          {comments.map((comment) => (
+            <Item sx={{bgcolor:"white", mt:2}} key={comment.id}>
+              <Stack spacing={2} direction="row" alignItems="center">
+                <Avatar>{comment.author.charAt(0).toUpperCase()}</Avatar>
+                <Stack sx={{ minWidth: 0 }}>
+                  <Typography fontWeight="md">
+                    {comment.author}
+                  </Typography>
+                  <Typography level="body-sm" noWrap>
+                    {parse(comment.content)}
+                  </Typography>
+                </Stack>
+              </Stack>
+            </Item>
           ))}
-        </ul>
+        </Stack>
       )}
-    </div>
+    </Box>
   );
 };

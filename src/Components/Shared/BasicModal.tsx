@@ -7,16 +7,27 @@ import Sheet from "@mui/joy/Sheet";
 interface BasicModalProps {
   labelButton: string;
   children: React.ReactNode;
+  icon?: React.ReactNode;
+  bgcolor?: string;
+  hoverBgcolor?: string;
+  sx?: any;
 }
 
 export const BasicModal: React.FC<BasicModalProps> = ({
   labelButton,
   children,
+  bgcolor,
+  icon,
+  hoverBgcolor,
+  ...sx
 }) => {
   const [open, setOpen] = React.useState<boolean>(false);
   return (
     <React.Fragment>
-      <Button color="success" onClick={() => setOpen(true)}>
+      <Button sx={{ bgcolor: bgcolor,  "&:hover": {
+            bgcolor: hoverBgcolor, 
+          }, }} onClick={() => setOpen(true)}>
+        {icon}
         {labelButton}
       </Button>
 
