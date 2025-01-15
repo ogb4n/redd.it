@@ -10,12 +10,15 @@ import "react-quill/dist/quill.snow.css";
 import { CommentsList } from "../../Components/CommentsList";
 import { Divider } from "@mui/material";
 import { CustomButton } from "../../Components/Shared/CustomButton";
-import { FormControl, Stack } from "@mui/joy";
+import { Stack } from "@mui/joy";
 import { useAuth } from "../../utils/AuthContext";
 import { BasicModal } from "../../Components/Shared/BasicModal";
 
 export const PostPage: React.FC = () => {
-  const { subId, postTitle } = useParams<{ subId: string; postTitle: string }>();
+  const { subId, postTitle } = useParams<{
+    subId: string;
+    postTitle: string;
+  }>();
   const { user } = useAuth();
   const [post, setPost] = useState<IPost | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -81,7 +84,9 @@ export const PostPage: React.FC = () => {
         const commentsCollection = collection(db, "comments");
         const q = query(commentsCollection, where("postId", "==", post.id));
         const snapshot = await getDocs(q);
-        setComments(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+        setComments(
+          snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        );
       }
     };
 
@@ -93,17 +98,17 @@ export const PostPage: React.FC = () => {
 
   return (
     <Stack className="p-4">
-{user && post?.authorId === user.uid && (
-  <BasicModal labelButton="edit the post">
-    {/* <EditPostForm
+      {user && post?.authorId === user.uid && (
+        <BasicModal labelButton="edit the post">
+          {/* <EditPostForm
       initialTitle={post?.title as string}
       initialContent={post?.content as string}
       postId={post?.id as string}
       onCancel={() => {}}
     /> */}
-    <p>oui</p>
-  </BasicModal>
-)}
+       oui
+        </BasicModal>
+      )}
 
       {post ? (
         <>
@@ -122,21 +127,27 @@ export const PostPage: React.FC = () => {
           <Stack sx={{ my: 6 }}>
             <CommentsList postId={post.id} comments={comments} />
           </Stack>
-          <form onSubmit={handlePostComment}>
-            <Stack spacing={2}>
-              <FormControl>
-                <ReactQuill
-                  theme="snow"
-                  value={commentFormData.content}
-                  onChange={handleContentChange}
-                  className="w-full h-28"
-                  placeholder="Write a comment..."
-                />
-              </FormControl>
-              <Stack sx={{ my: 6 }}>
-                <CustomButton label="post comment" color="success" />
-              </Stack>
-            </Stack>
+          <form onSubmit={handlePostComment} className="space-y-4">
+            <div className="rounded-lg">
+              <ReactQuill
+                theme="snow"
+                value={commentFormData.content}
+                onChange={handleContentChange}
+                className="h-28 text-black"
+                placeholder="Write a comment..."
+              />
+            </div>
+            <div>
+              <CustomButton
+                label="Post Comment"
+                sx={{
+                  bgcolor: "#10b981",
+                  "&:hover": {
+                    bgcolor: "#059669",
+                  },
+                }}
+              />
+            </div>
           </form>
         </>
       ) : (

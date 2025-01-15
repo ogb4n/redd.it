@@ -5,17 +5,17 @@ import { useNavigate, useLocation } from "react-router-dom";
 import useUpVote from "../Hooks/useUpVote";
 
 interface BarProps {
-  postName: string;
+  postId: string;
   subId: string;
 }
 
-export const PostInteractBar: React.FC<BarProps> = ({ postName, subId }) => {
-  const { handleUpVote } = useUpVote(postName);
+export const PostInteractBar: React.FC<BarProps> = ({ postId, subId }) => {
+  const { handleUpVote } = useUpVote(postId);
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleClickCommentButton = () => {
-    const postUrl = `/r/${subId}/${postName}`;
+    const postUrl = `/r/${subId}/${postId}`;
     if (location.pathname !== postUrl) {
       navigate(postUrl);
     }

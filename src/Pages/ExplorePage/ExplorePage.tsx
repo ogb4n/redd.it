@@ -20,7 +20,7 @@ export const ExplorePage: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Explorer les Subs</h1>
+      <h1 className="text-2xl font-bold text-black mb-4">Explorer les Subs</h1>
       {subs.length === 0 ? (
         <p>Aucun sub trouvé.</p>
       ) : (
@@ -34,9 +34,9 @@ export const ExplorePage: React.FC = () => {
                 className="w-full text-left"
                 onClick={() => handleSubClick(sub.id)}
               >
-                <h2 className="text-xl font-semibold">{sub.id}</h2>
+                <h2 className="text-xl text-black font-semibold">{sub.id}</h2>
                 {sub.description && (
-                  <p className="text-gray-600 mt-2 text-sm">
+                  <p className="text-slate-800 mt-2 text-sm">
                     {sub.description}
                   </p>
                 )}

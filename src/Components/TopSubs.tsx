@@ -6,8 +6,10 @@ import {
   where,
   Timestamp,
 } from "firebase/firestore";
+import { Typography } from "@mui/joy";
 import { db } from "../utils/firebase";
 import { ISub } from "../types";
+import { Link } from "react-router-dom";
 
 export const TopSubs: React.FC = () => {
   const [topSubs, setTopSubs] = useState<ISub[]>([]);
@@ -68,15 +70,27 @@ export const TopSubs: React.FC = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4">
+      <h2 className="text-xl text-black font-semibold mb-4">
         Top subs for the last 24 hours
       </h2>
       <ul>
         {topSubs.map((sub) => (
-          <li key={sub.id} className="mb-2">
-            <h3 className="text-lg font-bold">{sub.id}</h3>
-            <p>{sub.description}</p>
-          </li>
+          <Link key={sub.id} to={`/r/${sub.id}`}>
+            <li key={sub.id} className="mb-2">
+              <div className="card bg-base-100 image-full w-96 shadow-xl">
+                <figure>
+                  <img
+                    src={sub.imageUrl}
+                    alt="Shoes"
+                  />
+                </figure>
+                <div className="card-body">
+                  <h2 className="card-title">{sub.id}</h2>
+                  <Typography>{sub.description}</Typography>
+                </div>
+              </div>
+            </li>
+          </Link>
         ))}
       </ul>
     </div>

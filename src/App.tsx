@@ -7,9 +7,7 @@ function App() {
   return (
       <div className="App">
       <AuthProvider>
-        <header className="App-header">
           <RouterProvider router={router} />
-        </header>
       </AuthProvider>
       </div>
   );

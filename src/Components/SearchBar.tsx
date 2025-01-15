@@ -16,7 +16,7 @@ const SearchBar: React.FC = () => {
 
   return (
     <Stack>
-      <label className="input input-sm input-bordered bg-[#f4f3f4cc] flex items-center gap-2">
+      <label className="input input-sm input-bordered bg-[#f4f3f4cc] text-black flex items-center gap-2">
         <input
           type="text"
           className="grow"

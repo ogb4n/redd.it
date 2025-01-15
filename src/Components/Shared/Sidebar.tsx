@@ -52,7 +52,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <aside className="fixed mt-[3.5rem] w-[17rem] h-full bg-[#ffffff] border-r text-base text-neutral border-neutral border-opacity-30 p-4">
-      <ul className="space-y-2">
+      <ul className="space-y-2 my-2">
         <li>
           <Link
             to="/?feed=home"
@@ -84,7 +84,7 @@ const Sidebar: React.FC = () => {
       <Divider className="my-4" />
       {user && (
         <div>
-          <h2 className="text-lg font-semibold mb-2">Communautés</h2>
+          <h2 className="text-lg font-semibold my-2">Communautés</h2>
           {loading ? (
             <p>Loading...</p>
           ) : (
