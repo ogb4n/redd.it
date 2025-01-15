@@ -3,7 +3,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { IPost } from "../types";
 
-export const useGetPosts = (subName: string | undefined) => {
+export const useFetchPosts = (subName: string | undefined) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

@@ -11,7 +11,7 @@ interface BarProps {
 }
 
 export const PostInteractBar: React.FC<BarProps> = ({ postId, subId }) => {
-  const { handleUpVote } = useUpVote(postId);
+  const { handleUpVote } = useUpVote();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,10 +22,14 @@ export const PostInteractBar: React.FC<BarProps> = ({ postId, subId }) => {
     }
   };
 
+  const handleUpVoteClick = () => {
+    handleUpVote(postId);
+  };
+
   return (
     <div className="w-[35%] mx-auto bg-white rounded-full">
       <div className="flex items-center justify-around">
-        <button onClick={handleUpVote}>
+        <button onClick={handleUpVoteClick}>
           <ThumbUpIcon className="hover:text-secondary" />
         </button>
         <button onClick={useDownVote}>

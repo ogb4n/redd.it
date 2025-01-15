@@ -6,16 +6,16 @@ import { Post } from "../../Components/Post";
 import { CommentsList } from "../../Components/CommentsList";
 import { SubInteractBar } from "../../Components/SubInteractBar";
 import useFetchFollowedSubs from "../../Hooks/useFetchFollowedSubs";
-import { useGetPosts } from "../../Hooks/useGetPosts";
+import { useFetchPosts } from "../../Hooks/useFetchPosts";
 
 export const SubPage: React.FC = () => {
   const location = useLocation();
   const subName = location.pathname.split("/").pop();
   const { user } = useAuth();
-    console.log('subName:', subName);
+  console.log("subName:", subName);
   const [isFollowed, setIsFollowed] = useState(false);
 
-  const { posts, loading, error, comments } = useGetPosts(subName);
+  const { posts, loading, error, comments } = useFetchPosts(subName);
 
   const {
     subs: followedSubs,
@@ -41,7 +41,9 @@ export const SubPage: React.FC = () => {
   return (
     <div className="p-4">
       <div className="flex w-full items-center justify-between">
-        <h1 className="text-2xl text-black font-bold mb-4">Posts in r/{subName}</h1>
+        <h1 className="text-2xl text-black font-bold mb-4">
+          Posts in r/{subName}
+        </h1>
         {subName !== "popular" && (
           <SubInteractBar
             user={user}
