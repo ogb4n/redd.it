@@ -9,10 +9,10 @@ import {
 } from "firebase/firestore";
 import { useAuth } from "../utils/AuthContext";
 
-const useDownVote = (postId: string) => {
+const useDownVote = () => {
   const { user } = useAuth();
 
-  const handleDownVote = async () => {
+  const handleDownVote = async (postId: string) => {
     if (!user) {
       console.error("User not authenticated");
       return;
@@ -25,23 +25,25 @@ const useDownVote = (postId: string) => {
       const userDoc = await getDoc(userDocRef);
       const userData = userDoc.data();
 
-      if (userData?.likedPosts?.includes(postId)) {
+      const isPostDisliked = userData?.saved?.dislikedPosts?.includes(postId);
+
+      if (isPostDisliked) {
         await updateDoc(userDocRef, {
-          likedPosts: arrayRemove(postId),
+          "saved.dislikedPosts": arrayRemove(postId),
         });
         await updateDoc(postDocRef, {
-          likes: increment(-1),
+          dislikes: increment(-1),
         });
       } else {
         await updateDoc(userDocRef, {
-          likedPosts: arrayUnion(postId),
+          "saved.dislikedPosts": arrayUnion(postId),
         });
         await updateDoc(postDocRef, {
-          likes: increment(1),
+          dislikes: increment(1),
         });
       }
     } catch (error) {
-      console.error("Error updating likes:", error);
+      console.error("Error updating dislikes:", error);
     }
   };
 

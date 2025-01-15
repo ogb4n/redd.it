@@ -79,10 +79,7 @@ export const TopSubs: React.FC = () => {
             <li key={sub.id} className="mb-2">
               <div className="card bg-base-100 image-full w-96 shadow-xl">
                 <figure>
-                  <img
-                    src={sub.imageUrl}
-                    alt="Shoes"
-                  />
+                  <img src={sub.imageUrl} />
                 </figure>
                 <div className="card-body">
                   <h2 className="card-title">{sub.id}</h2>

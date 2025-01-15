@@ -3,6 +3,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ChatIcon from "@mui/icons-material/Chat";
 import { useNavigate, useLocation } from "react-router-dom";
 import useUpVote from "../Hooks/useUpVote";
+import useDownVote from "../Hooks/useDownVote";
 
 interface BarProps {
   postId: string;
@@ -27,7 +28,7 @@ export const PostInteractBar: React.FC<BarProps> = ({ postId, subId }) => {
         <button onClick={handleUpVote}>
           <ThumbUpIcon className="hover:text-secondary" />
         </button>
-        <button value="downvote">
+        <button onClick={useDownVote}>
           <ThumbDownIcon className="hover:text-error" />
         </button>
         <button onClick={handleClickCommentButton}>

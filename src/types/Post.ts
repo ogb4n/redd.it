@@ -5,4 +5,6 @@ export interface IPost {
   author: string;
   authorId: string;
   likes: number;
+  dislikes: number;
+  mediaUrls?: string[];
 }

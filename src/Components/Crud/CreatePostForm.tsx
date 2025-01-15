@@ -81,6 +81,7 @@ export const CreatePostForm: React.FC<FormActions> = ({
           author: user.displayName,
           authorId: user.uid,
           likes: 0,
+          dislikes: 0,
           nsfw: checked,
           creationDate: new Date(),
           subId: subId,

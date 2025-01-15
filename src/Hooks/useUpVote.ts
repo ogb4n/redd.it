@@ -9,10 +9,10 @@ import {
 } from "firebase/firestore";
 import { useAuth } from "../utils/AuthContext";
 
-const useUpVote = (postId: string) => {
+const useUpVote = () => {
   const { user } = useAuth();
 
-  const handleUpVote = async () => {
+  const handleUpVote = async (postId: string) => {
     if (!user) {
       console.error("User not authenticated");
       return;
@@ -25,7 +25,9 @@ const useUpVote = (postId: string) => {
       const userDoc = await getDoc(userDocRef);
       const userData = userDoc.data();
 
-      if (userData?.saved.likedPosts?.includes(postId)) {
+      const isPostLiked = userData?.saved?.likedPosts?.includes(postId);
+
+      if (isPostLiked) {
         await updateDoc(userDocRef, {
           "saved.likedPosts": arrayRemove(postId),
         });

@@ -1,18 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  addDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { IPost } from "../../types";
-import { Post } from "../../Components/Post";
 import NotFoundPage from "../NotFoundPage";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { CommentsList } from "../../Components/CommentsList";
 import { Divider } from "@mui/material";
 import { CustomButton } from "../../Components/Shared/CustomButton";
-import { Stack } from "@mui/joy";
+import { Stack, Button } from "@mui/joy";
 import { useAuth } from "../../utils/AuthContext";
 import { BasicModal } from "../../Components/Shared/BasicModal";
+import { EditPostForm } from "../../Components/Crud/EditPostForm";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import useDownVote from "../../Hooks/useDownVote";
+import useUpVote from "../../Hooks/useUpVote";
+import useDeletePost from "../../Hooks/useDeletePost";
 
 export const PostPage: React.FC = () => {
   const { subId, postTitle } = useParams<{
@@ -20,139 +33,216 @@ export const PostPage: React.FC = () => {
     postTitle: string;
   }>();
   const { user } = useAuth();
-  const [post, setPost] = useState<IPost | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [comments, setComments] = useState<any[]>([]);
-  const [commentFormData, setCommentFormData] = useState({ content: "" });
+  const navigate = useNavigate();
 
-  const handleContentChange = (value: string) => {
-    setCommentFormData((prev) => ({ ...prev, content: value }));
+  const [post, setPost] = useState<IPost | null>(null);
+  const [comments, setComments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { handleDownVote } = useDownVote();
+  const { handleUpVote } = useUpVote();
+
+  const handleDownVoteClick = () => {
+    if (post?.id) {
+      handleDownVote(post.id);
+    }
   };
 
-  const handlePostComment = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!commentFormData.content.trim()) {
-      console.error("Comment content cannot be empty.");
-      return;
+  const handleUpVoteClick = () => {
+    if (post?.id) {
+      handleUpVote(post.id);
     }
+  };
+
+  const handleDeletePost = async () => {
+    useDeletePost(post?.id ?? "").handleDeletePost();
+    navigate("/");
+  };
+
+  const fetchPostAndComments = async () => {
+    try {
+      setLoading(true);
+      const postsQuery = query(
+        collection(db, "posts"),
+        where("subId", "==", subId),
+        where("title", "==", postTitle)
+      );
+      const postSnapshot = await getDocs(postsQuery);
+
+      if (!postSnapshot.empty) {
+        const postData = postSnapshot.docs[0].data();
+        setPost({ id: postSnapshot.docs[0].id, ...postData } as IPost);
+
+        const commentsQuery = query(
+          collection(db, "comments"),
+          where("postId", "==", postSnapshot.docs[0].id)
+        );
+        const commentsSnapshot = await getDocs(commentsQuery);
+        setComments(
+          commentsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        );
+      } else {
+        setError("Post not found.");
+      }
+    } catch (err) {
+      setError("Error loading post and comments.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPostAndComments();
+  }, [subId, postTitle]);
+
+  const handlePostComment = async (content: string) => {
+    if (!content.trim()) return;
+
     try {
       await addDoc(collection(db, "comments"), {
-        content: commentFormData.content,
+        content,
         postId: post?.id,
         authorId: user?.uid,
         creationDate: new Date(),
       });
-      setCommentFormData({ content: "" });
+      fetchPostAndComments();
     } catch (err) {
       console.error("Error adding comment: ", err);
     }
   };
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const postsCollection = collection(db, "posts");
-        const q = query(
-          postsCollection,
-          where("subId", "==", subId),
-          where("title", "==", postTitle)
-        );
-        const snapshot = await getDocs(q);
-        if (!snapshot.empty) {
-          setPost({
-            id: snapshot.docs[0].id,
-            ...snapshot.docs[0].data(),
-          } as IPost);
-        } else {
-          setError("Post not found.");
-        }
-      } catch (err) {
-        setError("Error loading post.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPost();
-  }, [subId, postTitle]);
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      if (post) {
-        const commentsCollection = collection(db, "comments");
-        const q = query(commentsCollection, where("postId", "==", post.id));
-        const snapshot = await getDocs(q);
-        setComments(
-          snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-        );
-      }
-    };
-
-    fetchComments();
-  }, [post]);
-
   if (loading) return <div>Loading post...</div>;
   if (error) return <div>{error}</div>;
 
-  return (
+  return post ? (
     <Stack className="p-4">
-      {user && post?.authorId === user.uid && (
-        <BasicModal labelButton="edit the post">
-          {/* <EditPostForm
-      initialTitle={post?.title as string}
-      initialContent={post?.content as string}
-      postId={post?.id as string}
-      onCancel={() => {}}
-    /> */}
-       oui
-        </BasicModal>
-      )}
+      <Stack spacing={4} className="bg-white p-6 rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold text-black">{post.title}</h1>
+        <div
+          className="text-gray-700 text-lg"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
+        <PostMedia mediaUrls={post.mediaUrls} />
+        <PostActions
+          post={post}
+          user={user}
+          onUpVote={handleUpVoteClick}
+          onDownVote={handleDownVoteClick}
+          onDelete={handleDeletePost}
+        />
+        <Divider />
+      </Stack>
+      <Stack sx={{ my: 6 }}>
+        <CommentsList postId={post.id} comments={comments} />
+      </Stack>
+      <CommentForm onSubmit={handlePostComment} />
+    </Stack>
+  ) : (
+    <NotFoundPage />
+  );
+};
 
-      {post ? (
-        <>
-          <Post
-            key={post.id}
-            postId={post.id}
-            subId={subId as string}
-            title={post.title}
-            content={post.content}
-            author={post.author}
-            likes={post.likes}
-          />
-          <div className="w-96 mx-auto my-4">
-            <Divider />
-          </div>
-          <Stack sx={{ my: 6 }}>
-            <CommentsList postId={post.id} comments={comments} />
-          </Stack>
-          <form onSubmit={handlePostComment} className="space-y-4">
-            <div className="rounded-lg">
-              <ReactQuill
-                theme="snow"
-                value={commentFormData.content}
-                onChange={handleContentChange}
-                className="h-28 text-black"
-                placeholder="Write a comment..."
-              />
-            </div>
-            <div>
-              <CustomButton
-                label="Post Comment"
-                sx={{
-                  bgcolor: "#10b981",
-                  "&:hover": {
-                    bgcolor: "#059669",
-                  },
-                }}
-              />
-            </div>
-          </form>
-        </>
-      ) : (
-        <NotFoundPage />
+const PostMedia: React.FC<{ mediaUrls: string[] | undefined }> = ({
+  mediaUrls,
+}) => {
+  if (!mediaUrls || mediaUrls.length === 0) return null;
+
+  return (
+    <div className="flex flex-wrap gap-4">
+      {mediaUrls.map((url, index) => (
+        <div key={index} className="w-full">
+          {url.endsWith(".mp4") ||
+          url.endsWith(".webm") ||
+          url.endsWith(".ogg") ? (
+            <video src={url} controls className="w-full rounded-lg shadow-md" />
+          ) : (
+            <img
+              src={url}
+              alt={`Media ${index + 1}`}
+              className="w-full rounded-lg shadow-md"
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const PostActions: React.FC<{
+  post: IPost;
+  user: any;
+  onUpVote: () => void;
+  onDownVote: () => void;
+  onDelete: () => void;
+}> = ({ post, user, onUpVote, onDownVote, onDelete }) => {
+  return (
+    <Stack direction="row" spacing={4} className="mt-4">
+      <button onClick={onUpVote}>
+        <ThumbUpIcon className="hover:text-secondary" /> {post.likes}
+      </button>
+      <button onClick={onDownVote}>
+        <ThumbDownIcon className="hover:text-error" /> {post.dislikes}
+      </button>
+      {user && post.authorId === user.uid && (
+        <Stack direction="row" spacing={4}>
+          <BasicModal labelButton="Edit the post">
+            <EditPostForm
+              postId={post.id}
+              initialTitle={post.title}
+              initialContent={post.content}
+              initialMediaUrls={post.mediaUrls || []}
+              onCancel={() => {}}
+              onSubmit={async (
+                updatedTitle,
+                updatedContent,
+                updatedMediaUrls
+              ) => {
+                await updateDoc(doc(db, "posts", post.id), {
+                  title: updatedTitle,
+                  content: updatedContent,
+                  mediaUrls: updatedMediaUrls,
+                });
+              }}
+            />
+          </BasicModal>
+          <Button onClick={onDelete}>Delete</Button>
+        </Stack>
       )}
     </Stack>
+  );
+};
+
+const CommentForm: React.FC<{ onSubmit: (content: string) => void }> = ({
+  onSubmit,
+}) => {
+  const [content, setContent] = useState("");
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(content);
+        setContent("");
+      }}
+      className="space-y-4"
+    >
+      <ReactQuill
+        theme="snow"
+        value={content}
+        onChange={setContent}
+        className="h-28 text-black"
+        placeholder="Write a comment..."
+      />
+      <CustomButton
+        label="Post Comment"
+        sx={{
+          bgcolor: "#10b981",
+          "&:hover": {
+            bgcolor: "#059669",
+          },
+        }}
+      />
+    </form>
   );
 };
