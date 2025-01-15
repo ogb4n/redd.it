@@ -10,11 +10,7 @@ import {
   Typography,
 } from "@mui/joy";
 
-interface FormActions {
-  close: () => void;
-}
-
-export const CreateSubForm: React.FC<FormActions> = ({ close }) => {
+export const CreateSubForm: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { Divider } from "@mui/material";
 import { useAuth } from "../../utils/AuthContext";
 import useFetchFollowedSubs from "../../Hooks/useFetchFollowedSubs";
+import { CreateSubForm } from "../Crud/CreateSubForm";
 
 import { BasicModal } from "./BasicModal";
 
@@ -31,7 +32,7 @@ const Sidebar: React.FC = () => {
               labelButton="Create yours"
               icon={<AddIcon />}
             >
-              <AddIcon />
+              <CreateSubForm />
             </BasicModal>
           </li>
         ))}
