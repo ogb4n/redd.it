@@ -1,9 +1,9 @@
 import React from "react";
-import {  Button, ButtonProps } from "@mui/joy";
-
+import { Button, ButtonProps } from "@mui/joy";
 
 interface CustomButtonProps extends ButtonProps {
   label: string;
+  type: "button" | "submit" | "reset";
 }
 
 export const CustomButton: React.FC<CustomButtonProps> = ({
@@ -11,18 +11,18 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
   variant = "solid",
   size = "md",
   onClick,
-  type = "button",
+  type,
   ...props
 }) => {
   return (
-      <Button
-        variant={variant}
-        size={size}
-        onClick={onClick}
-        type={type}
-        {...props}
-      >
-        {label}
-      </Button>
+    <Button
+      variant={variant}
+      size={size}
+      onClick={onClick}
+      type={type}
+      {...props}
+    >
+      {label}
+    </Button>
   );
 };
