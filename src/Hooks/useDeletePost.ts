@@ -12,7 +12,6 @@ const useDeletePost = (postId: string) => {
 
     try {
       await deleteDoc(postDocRef);
-      console.log("Post deleted successfully");
     } catch (error) {
       console.error("Error deleting post:", error);
     }

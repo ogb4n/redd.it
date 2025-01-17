@@ -52,7 +52,6 @@ interface CommentsProps {
 }
 
 export const CommentsList: React.FC<CommentsProps> = ({ comments, postId }) => {
-  console.log(comments);
   return (
     <Box sx={{ flexGrow: 1, overflow: "hidden", px: 3 }}>
       {comments.length === 0 ? (

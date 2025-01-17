@@ -6,5 +6,6 @@ export interface IPost {
   authorId: string;
   likes: number;
   dislikes: number;
+  nsfw: boolean;
   mediaUrls?: string[];
 }

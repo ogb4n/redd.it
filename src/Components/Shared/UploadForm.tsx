@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { uploadMedia } from "../../utils/MediaUpload";
+import { Stack, Typography } from "@mui/material";
 
 const MediaUploader: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -27,7 +28,7 @@ const MediaUploader: React.FC = () => {
   };
 
   return (
-    <div className="p-4 border rounded-md">
+    <Stack sx={{ padding: 4, border: 1, borderRadius: 6 }}>
       <input type="file" onChange={handleFileChange} />
       <button
         onClick={handleUpload}
@@ -37,11 +38,11 @@ const MediaUploader: React.FC = () => {
         {loading ? "Uploading..." : "Upload"}
       </button>
       {uploadUrl && (
-        <p className="mt-2">
+        <Typography className="mt-2">
           Fichier disponible ici : <a href={uploadUrl}>{uploadUrl}</a>
-        </p>
+        </Typography>
       )}
-    </div>
+    </Stack>
   );
 };
 

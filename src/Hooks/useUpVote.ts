@@ -42,8 +42,8 @@ const useUpVote = () => {
           likes: increment(1),
         });
       }
-    } catch (error) {
-      console.error("Error updating likes:", error);
+    } catch (error: any) {
+      console.error(`Error updating likes: ${error.message}`);
     }
   };
 

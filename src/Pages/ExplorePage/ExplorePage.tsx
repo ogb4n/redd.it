@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFetchSubs } from "../../Hooks/useFetchSubs";
+import { Stack, Typography } from "@mui/material";
+import { List, ListItem, Button } from "@mui/joy";
 
 export const ExplorePage: React.FC = () => {
   const { subs, loading, error } = useFetchSubs();
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     document.title = "Explorer les Subs - Redd.it";
   }, []);
@@ -15,36 +16,40 @@ export const ExplorePage: React.FC = () => {
     navigate(`/r/${subId}`);
   };
 
-  if (loading) return <div>Chargement des subs...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <Stack>Chargement des subs...</Stack>;
+  if (error) return <Stack>{error}</Stack>;
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold text-black mb-4">Explorer les Subs</h1>
+    <Stack className="p-4">
+      <Typography className="text-2xl font-bold text-black mb-4">
+        Explorer les Subs
+      </Typography>
       {subs.length === 0 ? (
         <p>Aucun sub trouvé.</p>
       ) : (
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <List className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {subs.map((sub) => (
-            <li
+            <ListItem
               key={sub.id}
               className="border rounded-lg p-4 shadow transition"
             >
-              <button
+              <Button
                 className="w-full text-left"
                 onClick={() => handleSubClick(sub.id)}
               >
-                <h2 className="text-xl text-black font-semibold">{sub.id}</h2>
+                <Typography className="text-xl text-black font-semibold">
+                  {sub.id}
+                </Typography>
                 {sub.description && (
-                  <p className="text-slate-800 mt-2 text-sm">
+                  <Typography className="text-slate-800 mt-2 text-sm">
                     {sub.description}
-                  </p>
+                  </Typography>
                 )}
-              </button>
-            </li>
+              </Button>
+            </ListItem>
           ))}
-        </ul>
+        </List>
       )}
-    </div>
+    </Stack>
   );
 };

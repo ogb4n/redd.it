@@ -12,5 +12,4 @@ export interface IUser {
     savedPosts: [];
     followedUsers: [];
   };
-  wallet: { tokens: number };
 }

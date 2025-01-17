@@ -1,10 +1,12 @@
+import { Stack, Typography } from "@mui/material";
+
 export const NotFoundPage = () => {
   return (
-    <div>
-      <h1 className="text-error font-bold">Oh no !</h1>
-      <p className="">
+    <Stack>
+      <Typography className="text-error font-bold">Oh no !</Typography>
+      <Typography>
         The page or the place you're looking for seems not to be here...
-      </p>
-    </div>
+      </Typography>
+    </Stack>
   );
 };

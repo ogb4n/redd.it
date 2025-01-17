@@ -10,7 +10,7 @@ const Layout: React.FC = () => {
 
       <div className="flex flex-1">
         <Sidebar />
-        
+
         <main className="mx-auto w-[45rem] mt-[4rem] ">
           <Outlet />
         </main>

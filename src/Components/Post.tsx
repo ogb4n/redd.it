@@ -53,9 +53,9 @@ export const Post: React.FC<PostProps> = ({
             justifyContent: isPostPage ? "center" : "flex-start",
           }}
         >
-          {currentMediaUrls.map((url, index) => (
+          {currentMediaUrls.map((url: string, index: any) => (
             <Box
-              key={index}
+              key={url}
               sx={{
                 width: isPostPage ? "100%" : "100px",
                 maxWidth: isPostPage ? "500px" : "100px",

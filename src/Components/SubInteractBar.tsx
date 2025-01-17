@@ -5,6 +5,7 @@ import { db } from "../utils/firebase";
 import { CustomButton } from "../Components/Shared/CustomButton";
 import { BasicModal } from "./Shared/BasicModal";
 import { CreatePostForm } from "./Crud/CreatePostForm";
+import { Stack } from "@mui/material";
 
 interface BarProps {
   subId: string;
@@ -53,7 +54,7 @@ export const SubInteractBar: React.FC<BarProps> = ({
   };
 
   return (
-    <div className="ml-auto gap-2 grid grid-cols-2">
+    <Stack className="ml-auto gap-2 grid grid-cols-2">
       <BasicModal
         labelButton="Create a post"
         bgcolor="#10b981"
@@ -62,15 +63,16 @@ export const SubInteractBar: React.FC<BarProps> = ({
         <CreatePostForm user={user} subId={subId} close={() => {}} />
       </BasicModal>
       <CustomButton
+        type="button"
         sx={{
           bgcolor: isFollowed ? "#ba0b0b" : "#10b981",
           "&:hover": {
-            bgcolor: isFollowed ? "#a10a0a" : "#059669", // Couleur au survol
+            bgcolor: isFollowed ? "#a10a0a" : "#059669",
           },
         }}
         onClick={handleToggleFollow}
         label={isFollowed ? "Leave" : "Join"}
       ></CustomButton>
-    </div>
+    </Stack>
   );
 };

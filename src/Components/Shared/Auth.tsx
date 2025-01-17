@@ -71,12 +71,11 @@ export const Auth: React.FC = () => {
     }
   };
 
-  console.log("User:", user);
-
   return (
     <React.Fragment>
       {!user && (
         <CustomButton
+          type="button"
           variant="outlined"
           sx={{ textTransform: "none" }}
           startDecorator={<Add />}
@@ -127,6 +126,7 @@ export const Auth: React.FC = () => {
 
             {!showRegisterForm && (
               <CustomButton
+                type="button"
                 variant="plain"
                 color="primary"
                 onClick={() => setShowRegisterForm(true)}
@@ -135,7 +135,7 @@ export const Auth: React.FC = () => {
             )}
 
             {showRegisterForm && (
-              <div>
+              <Stack>
                 <DialogContent>Create an account</DialogContent>
                 <form onSubmit={handleRegister}>
                   <FormControl sx={{ mt: 2 }}>
@@ -170,7 +170,7 @@ export const Auth: React.FC = () => {
                     Register
                   </CustomButton>
                 </form>
-              </div>
+              </Stack>
             )}
           </Stack>
         </ModalDialog>

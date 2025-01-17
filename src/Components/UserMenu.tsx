@@ -11,6 +11,7 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useAuth } from "../utils/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Stack from "@mui/material/Stack";
 
 export const UserMenu: React.FC = () => {
   const { logout } = useAuth();
@@ -36,7 +37,7 @@ export const UserMenu: React.FC = () => {
   };
 
   return (
-    <React.Fragment>
+    <Stack>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
         <Tooltip title="Account settings">
           <IconButton
@@ -105,6 +106,6 @@ export const UserMenu: React.FC = () => {
           Logout
         </MenuItem>
       </Menu>
-    </React.Fragment>
+    </Stack>
   );
 };

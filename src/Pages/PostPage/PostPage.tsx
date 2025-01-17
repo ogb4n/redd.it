@@ -5,8 +5,8 @@ import { db } from "../../utils/firebase";
 import NotFoundPage from "../NotFoundPage";
 import "react-quill/dist/quill.snow.css";
 import { CommentsList } from "../../Components/CommentsList";
-import { Divider } from "@mui/material";
-import { Stack, Button } from "@mui/joy";
+import { Stack } from "@mui/material";
+import { Button } from "@mui/joy";
 import { useAuth } from "../../utils/AuthContext";
 import { BasicModal } from "../../Components/Shared/BasicModal";
 import { EditPostForm } from "../../Components/Crud/EditPostForm";
@@ -48,14 +48,14 @@ export const PostPage: React.FC = () => {
   const { post, comments, loading, error, setComments } =
     useFetchPostAndComments(subId, postTitle);
 
-  if (loading) return <div>Loading post...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <Stack>Loading post...</Stack>;
+  if (error) return <Stack>{error}</Stack>;
 
   return post ? (
     <Stack className="p-4">
       <Stack spacing={4} className="bg-white p-6 rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-black">{post.title}</h1>
-        <div
+        <Stack
           className="text-gray-700 text-lg"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
@@ -93,7 +93,7 @@ export const PostPage: React.FC = () => {
             </Stack>
           )}
         </Stack>
-        <Divider />
+        <Stack />
       </Stack>
       <Stack sx={{ my: 6 }}>
         <CommentsList postId={post.id} comments={comments} />
@@ -113,9 +113,9 @@ const PostMedia: React.FC<{ mediaUrls: string[] | undefined }> = ({
   if (!mediaUrls || mediaUrls.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <Stack className="flex flex-wrap gap-4">
       {mediaUrls.map((url, index) => (
-        <div key={index} className="w-full">
+        <Stack key={url} className="w-full">
           {url.endsWith(".mp4") ||
           url.endsWith(".webm") ||
           url.endsWith(".ogg") ? (
@@ -127,8 +127,8 @@ const PostMedia: React.FC<{ mediaUrls: string[] | undefined }> = ({
               className="w-full rounded-lg shadow-md"
             />
           )}
-        </div>
+        </Stack>
       ))}
-    </div>
+    </Stack>
   );
 };

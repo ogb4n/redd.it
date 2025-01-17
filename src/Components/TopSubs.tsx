@@ -6,10 +6,11 @@ import {
   where,
   Timestamp,
 } from "firebase/firestore";
-import { Typography } from "@mui/joy";
 import { db } from "../utils/firebase";
 import { ISub } from "../types";
 import { Link } from "react-router-dom";
+import { Stack, Typography } from "@mui/material";
+import { List, ListItem } from "@mui/joy";
 
 export const TopSubs: React.FC = () => {
   const [topSubs, setTopSubs] = useState<ISub[]>([]);
@@ -69,27 +70,27 @@ export const TopSubs: React.FC = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div>
-      <h2 className="text-xl text-black font-semibold mb-4">
-        Top subs for the last 24 hours
-      </h2>
-      <ul>
+    <Stack margin={2}>
+      <Typography typography={"h5"}>Top subs for the last 24 hours</Typography>
+      <List>
         {topSubs.map((sub) => (
           <Link key={sub.id} to={`/r/${sub.id}`}>
-            <li key={sub.id} className="mb-2">
-              <div className="card bg-base-100 image-full w-96 shadow-xl">
+            <ListItem key={sub.id} className="mb-2">
+              <Stack className="card bg-base-100 image-full w-96 shadow-xl">
                 <figure>
-                  <img src={sub.imageUrl} />
+                  <img alt="sub_image" src={sub.imageUrl} />
                 </figure>
-                <div className="card-body">
-                  <h2 className="card-title">{sub.id}</h2>
+                <Stack className="card-body">
+                  <Typography typography={"h6"} className="card-title">
+                    {sub.id}
+                  </Typography>
                   <Typography>{sub.description}</Typography>
-                </div>
-              </div>
-            </li>
+                </Stack>
+              </Stack>
+            </ListItem>
           </Link>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Stack>
   );
 };
